@@ -6,7 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from kelurahan import main_kelurahan
 from kelurahan import href_list
-from kabupaten import main_kabupaten
 
 import time
 import os
@@ -16,15 +15,15 @@ import os
 start_time = time.time()
 
 
-def main(url_provinsi):
+def main_kecamatan(url_kecamatan):
     # Setting up the driver
     service = Service(executable_path='chromedriver.exe')
     driver = webdriver.Chrome(service=service)
 
     # Url
-    # provinsi PARADO
+    # Kecamatan PARADO
     # url = 'https://pemilu2024.kpu.go.id/pilpres/hitung-suara/52/5206/520616'
-    driver.get(url_provinsi)
+    driver.get(url_kecamatan)
     time.sleep(2)
 
 
@@ -32,15 +31,15 @@ def main(url_provinsi):
         # Wait for table to be present (using time.sleep instead of EC)
         table = driver.find_element(By.TAG_NAME, "table")
 
-        # Find provinsi links within the table
-        provinsis = table.find_elements(By.TAG_NAME, "a")
-        print(provinsis)
-        provinsi_href_list = href_list(provinsis)
-        print(provinsi_href_list)
+        # Find kecamatan links within the table
+        kecamatans = table.find_elements(By.TAG_NAME, "a")
+        print(kecamatans)
+        kecamatan_href_list = href_list(kecamatans)
+        print(kecamatan_href_list)
 
-        for provinsi in provinsi_href_list:
-            main_kabupaten(provinsi)
-            print(f'putaran ke: {provinsi}')
+        for kecamatan in kecamatan_href_list:
+            main_kelurahan(kecamatan)
+            print(f'putaran ke: {kecamatan}')
             # time.sleep(7)
 
 
@@ -52,11 +51,10 @@ def main(url_provinsi):
         driver.quit()
 
 
-# Provinsi DKI Jakarta
-url_provinsi = 'https://pemilu2024.kpu.go.id/pilpres/hitung-suara/31'
+url_kecamatan = 'https://pemilu2024.kpu.go.id/pilpres/hitung-suara/52/5206/520616'
 
 if __name__ == "__main__":
-    main(url_provinsi)
+    main_kecamatan(url_kecamatan)
 
 
 
